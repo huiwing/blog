@@ -11,20 +11,19 @@ import java.util.List;
  */
 public interface ArticleMapper {
 
-    @Select("select * from article where type_code=#{typeCode} and dr =1")
+    @Select("select * from t_article where type_code=#{typeCode} and dr =1")
     @ResultMap("ArticleResultMap")
-    List<ArticleEntity> findGroupByType(@Param("typeCode") int typeCode);
+    List<ArticleEntity> findGroupByType(int typeCode);
 
-    @Select("select * from article where aid=#{aid} and dr=1")
-    @Results({
-            @Result(property = "id", column = "aid", javaType = Long.class),
-            @Result(property = "title", column = "title", javaType = String.class),
-            @Result(property = "content", column = "content"),
-            @Result(property = "author", column = "author"),
-            @Result(property = "typeCode", column = "type_code"),
-            @Result(property = "ct", column = "create_time"),
-            @Result(property = "ts", column = "ts"),
-            @Result(property = "likes", column = "c_like"),
-    })
+    @Select("select * from t_article where author=#{user} and dr =1")
+    @ResultMap("ArticleResultMap")
+    List<ArticleEntity> findGroupByUser(String user);
+
+    @Select("select * from t_article where type_code=#{typeCode} and author=#{user} and dr=1")
+    List<ArticleEntity> findGroupByTypeAndUser(@Param("typeCode") int typeCode, @Param("user") String user);
+
+    @Select("select * from t_article where aid=#{aid} and dr=1")
+    @ResultMap("ArticleResultMap")
     ArticleEntity findById(@Param("aid") Long id);
+
 }

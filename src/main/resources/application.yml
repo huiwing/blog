@@ -13,6 +13,6 @@ spring:
     username: root
     password: 111111
 mybatis:
+  mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.huiwings.blog.entity
-  config-location: classpath:mybatis/mybatis-config.xml
-  mapper-locations: classpath:mybatis/mapper/*.xml
+  config-location: classpath:mybatis-config.xml

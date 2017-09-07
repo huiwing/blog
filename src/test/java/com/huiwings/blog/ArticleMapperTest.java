@@ -1,6 +1,6 @@
 package com.huiwings.blog;
 
-import com.huiwings.blog.controller.article.ArticleService;
+import com.huiwings.blog.service.ArticleService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
