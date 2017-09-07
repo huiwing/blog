@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  address: 127.0.0.1
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 111111
+mybatis:
+  type-aliases-package: com.huiwings.blog.entity
+  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
