@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-09-07 16:31:00
+Date: 2017-11-15 17:21:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,12 +32,13 @@ CREATE TABLE `t_article` (
   PRIMARY KEY (`aid`,`type_code`),
   KEY `FK_Reference_2` (`type_code`),
   CONSTRAINT `FK_Reference_2` FOREIGN KEY (`type_code`) REFERENCES `t_article_type` (`type_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
 
 -- ----------------------------
 -- Records of t_article
 -- ----------------------------
-INSERT INTO `t_article` VALUES ('1', '真正的勇士', '敢于直面惨淡的人生', 'huiwings', '1', '2017-09-07 10:43:01', '2017-09-07 10:44:44', '1', '100');
+INSERT INTO `t_article` VALUES ('1', '真正的勇士', '敢于直面惨淡的人生', 'huiwings', '0', '2017-09-07 10:43:01', '2017-10-13 11:17:45', '1', '100');
+INSERT INTO `t_article` VALUES ('2', '真正的美女', '都是素颜', 'Huiwings', '0', '2017-10-13 11:29:38', '2017-10-13 11:29:41', '1', '0');
 
 -- ----------------------------
 -- Table structure for t_article_type
@@ -49,7 +50,7 @@ CREATE TABLE `t_article_type` (
   `type_code` int(11) DEFAULT NULL,
   PRIMARY KEY (`tid`),
   UNIQUE KEY `AK_Key_2` (`type_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='文章类型表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='文章类型表';
 
 -- ----------------------------
 -- Records of t_article_type
@@ -57,6 +58,7 @@ CREATE TABLE `t_article_type` (
 INSERT INTO `t_article_type` VALUES ('1', 'JavaEE', '1');
 INSERT INTO `t_article_type` VALUES ('2', 'Android', '2');
 INSERT INTO `t_article_type` VALUES ('3', 'Python', '3');
+INSERT INTO `t_article_type` VALUES ('4', 'test', '0');
 
 -- ----------------------------
 -- Table structure for t_comment

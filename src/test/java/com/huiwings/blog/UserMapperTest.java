@@ -23,6 +23,6 @@ public class UserMapperTest {
     }
     @Test
     public void testLogin() throws Exception{
-        System.out.println(service.login("huiwings","111111"));
+        System.out.println("----------------->"+service.login("huiwings","111111"));
     }
 }

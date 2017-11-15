@@ -12,7 +12,23 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8
     username: root
     password: 111111
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html; charset=utf-8
+    cache: false
+  #freemarker:
+  #  allow-request-override: false
+  #  cache: true
+  #  check-template-location: false
+  #  charset: UTF-8
+  #  content-type: text/html; charset=utf-8
+  #  expose-request-attributes: false
+  #  expose-session-attributes: false
+  #  expose-spring-macro-helpers: false
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.huiwings.blog.entity
-  config-location: classpath:mybatis-config.xml
+  config-location: classpath:config-config.xml

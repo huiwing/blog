@@ -32,6 +32,8 @@ public class ArticleService implements ArticleMapper {
         if (typeCode <= 0) {
             if (!TextUtils.isEmpty(user)) {//只有User
                 return mapper.findGroupByUser(user);
+            } else {
+                return mapper.findGroupByType(typeCode);
             }
         } else {
             if (!TextUtils.isEmpty(user)) {//两个参数都有
@@ -39,7 +41,6 @@ public class ArticleService implements ArticleMapper {
             }
             return mapper.findGroupByType(typeCode);//只有Type
         }
-        return null;//两个参数都没有
     }
 
     @Override
