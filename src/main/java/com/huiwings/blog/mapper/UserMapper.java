@@ -9,21 +9,20 @@ import java.util.List;
  * huiwings@163.com
  * Create By 2017/9/7 9:22
  */
+@Mapper
 public interface UserMapper {
-    @Select("select * from user where dr = 1")
-    @ResultMap("UserResultMap")
-    List<UserEntity> findAll();
+    UserEntity selectById(int id);
 
-    @Select("select * from user where id=#{id} and dr = 1")
-    @ResultMap("UserResultMap")
-    UserEntity findById(@Param("id") Long id);
+    List<UserEntity> selectByNickname(String name);
 
-    @Select("select * from user where username=#{username} and dr=1")
-    @ResultMap("UserResultMap")
-    UserEntity findByUserName(@Param("username") String username);
+    UserEntity selectByUsername(String name);
 
-    @Select("select u.id from user u where u.username = #{username} and u.password = #{password} and dr=1")
-    @Result(property = "id", column = "id")
-    Long login(@Param("username") String username, @Param("password") String password);
+    List<UserEntity> selectAll();
+
+    Long deleteByPrimaryKey(int id);
+
+    Long insertSelective(UserEntity entity);
+
+    Long updateByPrimaryKeySelective(UserEntity entity);
 
 }

@@ -6,9 +6,9 @@ package com.huiwings.blog.utils;
  */
 public class TextUtils {
     public static boolean isEmpty(String str) {
-        if (str != null && str.length() > 0) {
-            return false;
+        if (str == null || "null".equals(str) || str.length() <= 0) {
+            return true;
         }
-        return true;
+        return false;
     }
 }

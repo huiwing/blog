@@ -5,61 +5,49 @@ package com.huiwings.blog.entity;
  * Create By 2017/9/7 10:45
  */
 public class ArticleEntity {
-    private Long id;
-    private String title;
-    private String content;
-    private String author;
-    private int typeCode;
-    private String ct;
+    private Integer aid;
+
+    private Integer typeCode;
+    private Integer uid;
+
+    private String createTime;
+
     private String ts;
-    private int likes;
 
-    public Long getId() {
-        return id;
+    private Integer dr;
+
+    private Integer cLike;
+
+    public Integer getAid() {
+        return aid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setAid(Integer aid) {
+        this.aid = aid;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public int getTypeCode() {
+    public Integer getTypeCode() {
         return typeCode;
     }
 
-    public void setTypeCode(int typeCode) {
+    public void setTypeCode(Integer typeCode) {
         this.typeCode = typeCode;
     }
 
-    public String getCt() {
-        return ct;
+    public Integer getUid() {
+        return uid;
     }
 
-    public void setCt(String ct) {
-        this.ct = ct;
+    public void setUid(Integer uid) {
+        this.uid = uid;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getTs() {
@@ -70,25 +58,19 @@ public class ArticleEntity {
         this.ts = ts;
     }
 
-    public int getLikes() {
-        return likes;
+    public Integer getDr() {
+        return dr;
     }
 
-    public void setLikes(int likes) {
-        this.likes = likes;
+    public void setDr(Integer dr) {
+        this.dr = dr;
     }
 
-    @Override
-    public String toString() {
-        return "ArticleEntity{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", content='" + content + '\'' +
-                ", author='" + author + '\'' +
-                ", typeCode=" + typeCode +
-                ", ct='" + ct + '\'' +
-                ", ts='" + ts + '\'' +
-                ", likes=" + likes +
-                '}';
+    public Integer getcLike() {
+        return cLike;
+    }
+
+    public void setcLike(Integer cLike) {
+        this.cLike = cLike;
     }
 }

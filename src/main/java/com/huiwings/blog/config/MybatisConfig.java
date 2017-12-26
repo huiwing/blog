@@ -25,7 +25,7 @@ import java.util.Properties;
  */
 @Configuration
 @EnableTransactionManagement
-public class PageHelperConfig implements TransactionManagementConfigurer {
+public class MybatisConfig implements TransactionManagementConfigurer {
     @Autowired
     private DataSource dataSource;
 
@@ -42,7 +42,7 @@ public class PageHelperConfig implements TransactionManagementConfigurer {
         //添加XML目录
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         try {
-            bean.setMapperLocations(resolver.getResources("classpath:mapper/*.xml"));
+            bean.setMapperLocations(resolver.getResources("classpath:mybatis/mapper/*.xml"));
             return bean.getObject();
         } catch (Exception e) {
             e.printStackTrace();

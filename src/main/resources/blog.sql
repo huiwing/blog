@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50717
 File Encoding         : 65001
 
-Date: 2017-11-15 17:21:11
+Date: 2017-12-26 17:59:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -23,22 +23,24 @@ CREATE TABLE `t_article` (
   `aid` int(11) NOT NULL AUTO_INCREMENT,
   `title` text CHARACTER SET utf8 NOT NULL COMMENT '标题',
   `content` text CHARACTER SET utf8,
-  `author` varchar(25) CHARACTER SET utf8 DEFAULT NULL,
-  `type_code` int(11) NOT NULL,
-  `create_time` datetime DEFAULT NULL,
-  `ts` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `uid` int(25) DEFAULT NULL,
+  `type_code` int(11) NOT NULL DEFAULT '0' COMMENT '文章类型',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `ts` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
   `dr` int(11) DEFAULT '1',
   `c_like` int(11) DEFAULT '0' COMMENT '点赞数',
   PRIMARY KEY (`aid`,`type_code`),
   KEY `FK_Reference_2` (`type_code`),
   CONSTRAINT `FK_Reference_2` FOREIGN KEY (`type_code`) REFERENCES `t_article_type` (`type_code`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='文章表';
 
 -- ----------------------------
 -- Records of t_article
 -- ----------------------------
-INSERT INTO `t_article` VALUES ('1', '真正的勇士', '敢于直面惨淡的人生', 'huiwings', '0', '2017-09-07 10:43:01', '2017-10-13 11:17:45', '1', '100');
-INSERT INTO `t_article` VALUES ('2', '真正的美女', '都是素颜', 'Huiwings', '0', '2017-10-13 11:29:38', '2017-10-13 11:29:41', '1', '0');
+INSERT INTO `t_article` VALUES ('1', '真正的勇士', '敢于直面惨淡的人生', '4', '0', '2017-09-07 10:43:01', '2017-12-26 16:05:40', '1', '100');
+INSERT INTO `t_article` VALUES ('2', '帅哥', '真正的帅哥，都是平头', '4', '0', '2017-10-13 11:29:38', '2017-12-26 16:10:06', '1', '0');
+INSERT INTO `t_article` VALUES ('3', '震惊', '这一天，全世界都震惊了', '4', '0', '2017-12-26 03:59:00', '2017-12-26 16:05:43', '1', '0');
+INSERT INTO `t_article` VALUES ('4', '真的震惊', '这一天，全世界都真的震惊了', '5', '0', '2017-12-26 04:01:00', '2017-12-26 16:06:28', '0', '0');
 
 -- ----------------------------
 -- Table structure for t_article_type
@@ -58,7 +60,7 @@ CREATE TABLE `t_article_type` (
 INSERT INTO `t_article_type` VALUES ('1', 'JavaEE', '1');
 INSERT INTO `t_article_type` VALUES ('2', 'Android', '2');
 INSERT INTO `t_article_type` VALUES ('3', 'Python', '3');
-INSERT INTO `t_article_type` VALUES ('4', 'test', '0');
+INSERT INTO `t_article_type` VALUES ('4', 'All', '0');
 
 -- ----------------------------
 -- Table structure for t_comment
@@ -131,17 +133,19 @@ CREATE TABLE `user` (
   `email` varchar(25) DEFAULT '' COMMENT '邮箱',
   `age` int(11) DEFAULT '0' COMMENT '年龄',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `timestamp` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+  `ts` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '时间戳',
+  `lv` int(8) DEFAULT '0' COMMENT '用户等级',
   `dr` int(11) DEFAULT '1' COMMENT '标记（0.已删除 1,未删除）',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', 'huiwings', '111111', '龚慧文', 'huiwings@163.com', '22', '2017-07-27 11:18:28', '2017-07-27 14:36:34', '1');
-INSERT INTO `user` VALUES ('2', 'xiaogong', '111111', '小工', '101@163.com', '23', '2017-09-06 11:51:29', '2017-09-06 11:51:31', '0');
-INSERT INTO `user` VALUES ('3', 'gong', '111111', '小龚', 'gong@gmail.com', '21', '2017-09-06 11:54:29', '2017-09-06 11:54:33', '1');
+INSERT INTO `user` VALUES ('4', 'wfx', '333333', 'wei', '101@email.com', '0', '2017-12-26 00:00:00', '2017-12-26 11:24:44', '0', '1');
+INSERT INTO `user` VALUES ('5', 'huiwings', '111111', '龚慧文', 'huiwings@email.com', '23', '2017-12-26 10:55:00', '2017-12-26 11:22:57', '3', '1');
+INSERT INTO `user` VALUES ('6', 'yuan', '111111', '袁康', 'yuan@email.com', '23', '2017-12-26 11:25:00', '2017-12-26 11:25:00', '1', '1');
 
 -- ----------------------------
 -- Table structure for user_entity
@@ -164,3 +168,9 @@ CREATE TABLE `user_entity` (
 -- ----------------------------
 -- Records of user_entity
 -- ----------------------------
+
+-- ----------------------------
+-- View structure for v_article
+-- ----------------------------
+DROP VIEW IF EXISTS `v_article`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_article` AS select `t_article`.`aid` AS `aid`,`t_article`.`title` AS `title`,`t_article`.`uid` AS `uid`,`t_article`.`type_code` AS `type_code`,`t_article`.`create_time` AS `create_time`,`t_article`.`ts` AS `ts`,`t_article`.`dr` AS `dr`,`user`.`username` AS `username`,`user`.`email` AS `email`,`user`.`nickname` AS `nickname`,`t_article`.`c_like` AS `c_like`,`t_article`.`content` AS `content` from (`t_article` join `user` on(((`t_article`.`uid` = `user`.`id`) and (`t_article`.`uid` = `user`.`id`)))) ;

@@ -12,6 +12,11 @@ public class ResponseEntity {
     public ResponseEntity() {
     }
 
+    public ResponseEntity(int resultCode, String msg) {
+        this.resultCode = resultCode;
+        this.msg = msg;
+    }
+
     public ResponseEntity(int resultCode, Object data, String msg) {
         this.resultCode = resultCode;
         this.data = data;

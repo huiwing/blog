@@ -7,11 +7,13 @@ package com.huiwings.blog.entity;
 public class UserEntity {
     private Integer id;
     private String username;
+    private String password;
     private String nickname;
     private String email;
     private int age;
-    private String create_time;
+    private String createTime;
     private String timestamp;
+    private int lv;
 
     public UserEntity() {
     }
@@ -30,6 +32,14 @@ public class UserEntity {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getNickname() {
@@ -56,12 +66,12 @@ public class UserEntity {
         this.age = age;
     }
 
-    public String getCreatetime() {
-        return create_time;
+    public String getCreateTime() {
+        return createTime;
     }
 
-    public void setCreatetime(String createtime) {
-        this.create_time = createtime;
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
     }
 
     public String getTimestamp() {
@@ -72,16 +82,12 @@ public class UserEntity {
         this.timestamp = timestamp;
     }
 
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", nickname='" + nickname + '\'' +
-                ", email='" + email + '\'' +
-                ", age=" + age +
-                ", create_time='" + create_time + '\'' +
-                ", timestamp='" + timestamp + '\'' +
-                '}';
+    public int getLv() {
+        return lv;
     }
+
+    public void setLv(int lv) {
+        this.lv = lv;
+    }
+
 }

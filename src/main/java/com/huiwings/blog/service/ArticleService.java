@@ -1,50 +1,79 @@
 package com.huiwings.blog.service;
 
-import com.huiwings.blog.entity.ArticleEntity;
-import com.huiwings.blog.mapper.ArticleMapper;
-import com.huiwings.blog.utils.TextUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.huiwings.blog.entity.ArticleBLOBsEntity;
+import com.huiwings.blog.entity.ArticleViewEntity;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * huiwings@163.com
  * Create By 2017/9/7 14:38
  */
-@Service
-public class ArticleService implements ArticleMapper {
-    @Autowired
-    ArticleMapper mapper;
+public interface ArticleService {
 
-    @Override
-    public List<ArticleEntity> findGroupByType(int typeCode) {
-        return mapper.findGroupByType(typeCode);
-    }
+    /**
+     * 通过ID
+     *
+     * @param id
+     * @return
+     */
+    ArticleViewEntity selectById(int id);
 
-    @Override
-    public List<ArticleEntity> findGroupByUser(String user) {
-        return mapper.findGroupByUser(user);
-    }
+    /**
+     * 通过类型
+     *
+     * @param type
+     * @return
+     */
+    List<ArticleViewEntity> selectByType(int type);
 
-    @Override
-    public List<ArticleEntity> findGroupByTypeAndUser(int typeCode, String user) {
-        if (typeCode <= 0) {
-            if (!TextUtils.isEmpty(user)) {//只有User
-                return mapper.findGroupByUser(user);
-            } else {
-                return mapper.findGroupByType(typeCode);
-            }
-        } else {
-            if (!TextUtils.isEmpty(user)) {//两个参数都有
-                return mapper.findGroupByTypeAndUser(typeCode, user);
-            }
-            return mapper.findGroupByType(typeCode);//只有Type
-        }
-    }
+    /**
+     * 通过用户id
+     *
+     * @param uid
+     * @return
+     */
+    List<ArticleViewEntity> selectByUid(int uid);
 
-    @Override
-    public ArticleEntity findById(Long id) {
-        return mapper.findById(id);
-    }
+    /**
+     * 通过用户ID+type
+     *
+     * @param param
+     * @return
+     */
+    List<ArticleViewEntity> selectByUidType(Map<String, Integer> param);
+
+    /**
+     * 所有数据
+     *
+     * @return
+     */
+    List<ArticleViewEntity> selectAll();
+
+    Long deleteById(int id);
+
+    Long deleteByType(int type);
+
+    Long deleteByUid(int uid);
+
+    Long deleteByUidType(Map<String, Integer> param);
+
+    /**
+     * 插入
+     *
+     * @param entity
+     * @return
+     */
+    Long insertSelective(ArticleBLOBsEntity entity);
+
+    /**
+     * 更新
+     *
+     * @param entity
+     * @return
+     */
+    Long updateById(ArticleBLOBsEntity entity);
+
+
 }

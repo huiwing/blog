@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.huiwings.blog.mapper.ArticleMapper">
+    <resultMap id="BaseResultMap" type="com.huiwings.blog.entity.ArticleEntity">
+        <id column="aid" property="aid" jdbcType="INTEGER"/>
+        <id column="type_code" property="typeCode" jdbcType="INTEGER"/>
+        <result column="uid" property="uid" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="ts" property="ts" jdbcType="TIMESTAMP"/>
+        <result column="dr" property="dr" jdbcType="INTEGER"/>
+        <result column="c_like" property="cLike" jdbcType="INTEGER"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.huiwings.blog.entity.ArticleBLOBsEntity" extends="BaseResultMap">
+        <result column="title" property="title" jdbcType="LONGVARCHAR"/>
+        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    </resultMap>
+    <resultMap extends="ResultMapWithBLOBs" id="BaseViewResultMap" type="com.huiwings.blog.entity.ArticleViewEntity">
+        <result column="username" property="username" jdbcType="VARCHAR"/>
+        <result column="email" property="email" jdbcType="VARCHAR"/>
+        <result column="nickname" property="nickname" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        aid, type_code, uid, create_time, ts, dr, c_like
+    </sql>
+    <sql id="Blob_Column_List">
+        title, content
+    </sql>
+    <sql id="Base_View_List">
+        username, email,nickname
+    </sql>
+    <select id="selectById" resultMap="BaseViewResultMap" parameterType="INTEGER">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="Base_View_List"/>
+        from v_article
+        where aid = #{aid,jdbcType=INTEGER}
+        and dr = 1
+    </select>
+    <select id="selectAll" resultMap="BaseViewResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="Base_View_List"/>
+        from v_article
+        WHERE dr = 1
+    </select>
+    <select id="selectByType" resultMap="BaseViewResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="Base_View_List"/>
+        from v_article
+        WHERE type_code = #{typeCode,jdbcType=INTEGER}
+        and dr = 1
+    </select>
+    <select id="selectByUid" resultMap="BaseViewResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="Base_View_List"/>
+        from v_article
+        WHERE uid = #{uid,jdbcType=INTEGER}
+        and dr = 1
+    </select>
+    <select id="selectByUidType" resultMap="BaseViewResultMap" parameterType="java.util.HashMap">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        ,
+        <include refid="Base_View_List"/>
+        from v_article
+        WHERE uid = #{uid,jdbcType=INTEGER}
+        and type_code = #{typeCode,jdbcType=INTEGER}
+        and dr = 1
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+        UPDATE t_article SET
+        dr = 0
+        where aid = #{aid,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByType" parameterType="java.lang.Integer">
+        UPDATE t_article SET
+        dr = 0
+        where type_code = #{typeCode,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByUid" parameterType="java.lang.Integer">
+        UPDATE t_article SET
+        dr = 0
+        where uid = #{uid,jdbcType=INTEGER}
+    </delete>
+    <delete id="deleteByUidType" parameterType="java.util.HashMap">
+        UPDATE t_article SET
+        dr = 0
+        where uid = #{uid,jdbcType=INTEGER}
+        AND type_code = #{typeCode,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
+        insert into t_article (aid, type_code, uid,
+        create_time, ts, dr,
+        c_like, title, content
+        )
+        values (#{aid,jdbcType=INTEGER}, #{typeCode,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{ts,jdbcType=TIMESTAMP}, #{dr,jdbcType=INTEGER},
+        #{cLike,jdbcType=INTEGER}, #{title,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
+        insert into t_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="aid != null">
+                aid,
+            </if>
+            <if test="typeCode != null">
+                type_code,
+            </if>
+            <if test="uid != null">
+                uid,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="ts != null">
+                ts,
+            </if>
+            <if test="cLike != null">
+                c_like,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="aid != null">
+                #{aid,jdbcType=INTEGER},
+            </if>
+            <if test="typeCode != null">
+                #{typeCode,jdbcType=INTEGER},
+            </if>
+            <if test="uid != null">
+                #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ts != null">
+                #{ts,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cLike != null">
+                #{cLike,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
+        update t_article
+        <set>
+            <if test="uid != null">
+                uid = #{uid,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="ts != null">
+                ts = #{ts,jdbcType=TIMESTAMP},
+            </if>
+            <if test="cLike != null">
+                c_like = #{cLike,jdbcType=INTEGER},
+            </if>
+            <if test="title != null">
+                title = #{title,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where aid = #{aid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
+        update t_article
+        set uid = #{uid,jdbcType=INTEGER},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        ts = #{ts,jdbcType=TIMESTAMP},
+        dr = #{dr,jdbcType=INTEGER},
+        c_like = #{cLike,jdbcType=INTEGER},
+        title = #{title,jdbcType=LONGVARCHAR},
+        content = #{content,jdbcType=LONGVARCHAR}
+        where aid = #{aid,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.huiwings.blog.entity.ArticleEntity">
+    update t_article
+    set uid = #{uid,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      ts = #{ts,jdbcType=TIMESTAMP},
+      dr = #{dr,jdbcType=INTEGER},
+      c_like = #{cLike,jdbcType=INTEGER}
+    where aid = #{aid,jdbcType=INTEGER}
+  </update>
+</mapper>

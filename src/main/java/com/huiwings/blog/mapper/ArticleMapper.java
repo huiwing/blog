@@ -1,29 +1,39 @@
 package com.huiwings.blog.mapper;
 
-import com.huiwings.blog.entity.ArticleEntity;
-import org.apache.ibatis.annotations.*;
+import com.huiwings.blog.entity.ArticleViewEntity;
+import com.huiwings.blog.entity.ArticleBLOBsEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * huiwings@163.com
  * Create By 2017/9/7 10:45
  */
+@Mapper
 public interface ArticleMapper {
 
-    @Select("select * from t_article where type_code=#{typeCode} and dr =1")
-    @ResultMap("ArticleResultMap")
-    List<ArticleEntity> findGroupByType(int typeCode);
+    ArticleViewEntity selectById(int id);
 
-    @Select("select * from t_article where author=#{user} and dr =1")
-    @ResultMap("ArticleResultMap")
-    List<ArticleEntity> findGroupByUser(String user);
+    List<ArticleViewEntity> selectByType(int type);
 
-    @Select("select * from t_article where type_code=#{typeCode} and author=#{user} and dr=1")
-    List<ArticleEntity> findGroupByTypeAndUser(@Param("typeCode") int typeCode, @Param("user") String user);
+    List<ArticleViewEntity> selectByUid(int uid);
 
-    @Select("select * from t_article where aid=#{aid} and dr=1")
-    @ResultMap("ArticleResultMap")
-    ArticleEntity findById(@Param("aid") Long id);
+    List<ArticleViewEntity> selectByUidType(Map<String, Integer> param);
+
+    List<ArticleViewEntity> selectAll();
+
+    Long deleteById(int id);
+
+    Long deleteByType(int type);
+
+    Long deleteByUid(int uid);
+
+    Long deleteByUidType(Map<String, Integer> param);
+
+    Long insertSelective(ArticleBLOBsEntity entity);
+
+    Long updateById(ArticleBLOBsEntity entity);
 
 }
