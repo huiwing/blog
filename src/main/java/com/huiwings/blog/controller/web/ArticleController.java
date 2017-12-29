@@ -1,11 +1,9 @@
-package com.huiwings.blog.controller;
+package com.huiwings.blog.controller.web;
 
 import com.github.pagehelper.PageHelper;
 import com.huiwings.blog.Constants;
 import com.huiwings.blog.controller.base.BaseController;
-import com.huiwings.blog.entity.ArticleBLOBsEntity;
-import com.huiwings.blog.entity.ResponseEntity;
-import com.huiwings.blog.entity.UserEntity;
+import com.huiwings.blog.entity.*;
 import com.huiwings.blog.http.ResponseCode;
 import com.huiwings.blog.service.ArticleServiceImpl;
 import com.huiwings.blog.utils.TimeUtil;
@@ -40,11 +38,18 @@ public class ArticleController extends BaseController {
     @GetMapping("list/{page}/{count}")
     public ResponseEntity findByKey(
             @PathVariable("page") int page, @PathVariable("count") int count,
-            @RequestParam(value = "type", required = false, defaultValue = "0") int typeCode,
-            @RequestParam(value = "uid", required = false, defaultValue = "0") int uid) {
-        List<ArticleBLOBsEntity> entities;
+            @RequestParam(value = "type", required = false, defaultValue = "0") int typeCode) {
+        List<ArticleViewEntity> entities;
         PageHelper.startPage(page, count);
-        return returnOk(service.selectByType(typeCode), Constants.QUERY_OK);
+        if (typeCode == 0) {
+            entities = service.selectAll();
+        } else {
+            entities = service.selectByType(typeCode);
+        }
+        if (entities == null) {
+            returnError("查询失败");
+        }
+        return returnOk(entities, Constants.QUERY_OK);
     }
 
     @PostMapping("add")
@@ -74,7 +79,7 @@ public class ArticleController extends BaseController {
         long result;
         if (Objects.equals(service.selectById(aid).getUid(), userEntity.getId()) || userEntity.getLv() == 3) {
             result = service.deleteById(aid);
-            return result <= 0 ? returnError("操作失败") : returnOk("操作成功");
+            return result < 1 ? returnError("操作失败") : returnOk("操作成功");
         } else {
             return returnResult(ResponseCode.NO_PERMISSION);
         }

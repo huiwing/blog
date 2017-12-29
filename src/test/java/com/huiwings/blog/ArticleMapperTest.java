@@ -22,6 +22,7 @@ public class ArticleMapperTest {
 
     @Test
     public void testFind() throws Exception {
+        //List<ArticleViewEntity> entity = service.selectAll();
         System.out.println(JSON.toJSONString(service.selectAll()));
     }
 

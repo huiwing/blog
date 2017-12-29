@@ -1,7 +1,6 @@
-server:
-  port: 8080
-  address: 127.0.0.1
 spring:
+  profiles:
+    active: prod
   http:
     encoding:
       charset: UTF-8
@@ -9,9 +8,9 @@ spring:
       force: true
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://47.90.123.214:3306/blog?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 111111
+    password: Hui.330224
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
@@ -19,15 +18,6 @@ spring:
     encoding: UTF-8
     content-type: text/html; charset=utf-8
     cache: false
-  #freemarker:
-  #  allow-request-override: false
-  #  cache: true
-  #  check-template-location: false
-  #  charset: UTF-8
-  #  content-type: text/html; charset=utf-8
-  #  expose-request-attributes: false
-  #  expose-session-attributes: false
-  #  expose-spring-macro-helpers: false
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   config-location: classpath:mybatis/mybatis-config.xml

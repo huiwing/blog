@@ -5,9 +5,9 @@ package com.huiwings.blog.entity;
  * Create By 2017/9/5 10:48
  */
 public class ResponseEntity {
-    private int resultCode;
-    private Object data;
-    private String msg;
+    private int resultCode = 0;
+    private Object data = "";
+    private String msg = "UnKnow";
 
     public ResponseEntity() {
     }

@@ -1,5 +1,7 @@
 package com.huiwings.blog.entity;
 
+import java.util.List;
+
 /**
  * huiwings@163.com
  * Create By 2017/9/7 10:45
@@ -14,9 +16,9 @@ public class ArticleEntity {
 
     private String ts;
 
-    private Integer dr;
-
     private Integer cLike;
+
+    private List<CommentEntity> comments;
 
     public Integer getAid() {
         return aid;
@@ -58,19 +60,19 @@ public class ArticleEntity {
         this.ts = ts;
     }
 
-    public Integer getDr() {
-        return dr;
-    }
-
-    public void setDr(Integer dr) {
-        this.dr = dr;
-    }
-
     public Integer getcLike() {
         return cLike;
     }
 
     public void setcLike(Integer cLike) {
         this.cLike = cLike;
+    }
+
+    public List<CommentEntity> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<CommentEntity> comments) {
+        this.comments = comments;
     }
 }

@@ -39,7 +39,7 @@ public class UserMapperTest {
         entity.setNickname("袁康");
         entity.setPassword("111111");
         entity.setCreateTime(TimeUtil.getDateMillis());
-        entity.setTimestamp(TimeUtil.getDateMillis());
+        entity.setTs(TimeUtil.getDateMillis());
         entity.setLv(1);
         Long result = service.insertSelective(entity);
         System.out.println("result--------->" + result);

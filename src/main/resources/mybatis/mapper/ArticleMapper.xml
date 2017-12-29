@@ -9,6 +9,12 @@
         <result column="ts" property="ts" jdbcType="TIMESTAMP"/>
         <result column="dr" property="dr" jdbcType="INTEGER"/>
         <result column="c_like" property="cLike" jdbcType="INTEGER"/>
+        <collection property="comments" javaType="java.util.List" ofType="com.huiwings.blog.entity.CommentEntity">
+            <id column="c_id" property="id" jdbcType="INTEGER"/>
+            <result column="c_user" property="username" jdbcType="VARCHAR"/>
+            <result column="c_content" property="content" jdbcType="LONGVARCHAR"/>
+            <result column="c_ct" property="createTime" jdbcType="TIMESTAMP"/>
+        </collection>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.huiwings.blog.entity.ArticleBLOBsEntity" extends="BaseResultMap">
         <result column="title" property="title" jdbcType="LONGVARCHAR"/>
@@ -28,60 +34,121 @@
     <sql id="Base_View_List">
         username, email,nickname
     </sql>
+
     <select id="selectById" resultMap="BaseViewResultMap" parameterType="INTEGER">
         select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="Base_View_List"/>
-        from v_article
-        where aid = #{aid,jdbcType=INTEGER}
-        and dr = 1
+        va.aid,
+        va.type_code,
+        va.uid,
+        va.create_time,
+        va.ts,
+        va.c_like,
+        va.title,
+        va.content,
+        va.username,
+        va.email,
+        va.nickname,
+        tc.id c_id,
+        tc.username c_user,
+        tc.content c_content,
+        tc.create_time c_ct
+        from v_article va
+        LEFT JOIN t_comment tc
+        ON tc.aid = va.aid
+        where va.aid = #{aid,jdbcType=INTEGER}
+        and va.dr = 1
     </select>
     <select id="selectAll" resultMap="BaseViewResultMap">
         select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="Base_View_List"/>
-        from v_article
-        WHERE dr = 1
+        va.aid,
+        va.type_code,
+        va.uid,
+        va.create_time,
+        va.ts,
+        va.c_like,
+        va.title,
+        va.content,
+        va.username,
+        va.email,
+        va.nickname,
+        tc.id c_id,
+        tc.username c_user,
+        tc.content c_content,
+        tc.create_time c_ct
+        from v_article va
+        LEFT JOIN t_comment tc
+        ON tc.aid = va.aid and tc.dr=1
+        WHERE va.dr = 1
     </select>
     <select id="selectByType" resultMap="BaseViewResultMap" parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="Base_View_List"/>
-        from v_article
-        WHERE type_code = #{typeCode,jdbcType=INTEGER}
-        and dr = 1
+        va.aid,
+        va.type_code,
+        va.uid,
+        va.create_time,
+        va.ts,
+        va.c_like,
+        va.title,
+        va.content,
+        va.username,
+        va.email,
+        va.nickname,
+        tc.id c_id,
+        tc.username c_user,
+        tc.content c_content,
+        tc.create_time c_ct
+        from v_article va
+        LEFT JOIN t_comment tc
+        ON tc.dr = 1 and tc.aid = va.aid
+        WHERE va.type_code = #{typeCode,jdbcType=INTEGER}
+        and va.dr = 1
     </select>
     <select id="selectByUid" resultMap="BaseViewResultMap" parameterType="java.lang.Integer">
         select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="Base_View_List"/>
-        from v_article
-        WHERE uid = #{uid,jdbcType=INTEGER}
-        and dr = 1
+        va.aid,
+        va.type_code,
+        va.uid,
+        va.create_time,
+        va.ts,
+        va.c_like,
+        va.title,
+        va.content,
+        va.username,
+        va.email,
+        va.nickname,
+        tc.id c_id,
+        tc.username c_user,
+        tc.content c_content,
+        tc.create_time c_ct
+        from v_article va
+        LEFT JOIN t_comment tc
+        ON tc.dr = 1 and tc.aid = va.aid
+        WHERE va.uid = #{uid,jdbcType=INTEGER}
+        and va.dr = 1
     </select>
     <select id="selectByUidType" resultMap="BaseViewResultMap" parameterType="java.util.HashMap">
         select
-        <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
-        ,
-        <include refid="Base_View_List"/>
-        from v_article
-        WHERE uid = #{uid,jdbcType=INTEGER}
-        and type_code = #{typeCode,jdbcType=INTEGER}
-        and dr = 1
+        va.aid,
+        va.type_code,
+        va.uid,
+        va.create_time,
+        va.ts,
+        va.c_like,
+        va.title,
+        va.content,
+        va.username,
+        va.email,
+        va.nickname,
+        tc.id c_id,
+        tc.username c_user,
+        tc.content c_content,
+        tc.create_time c_ct
+        from v_article va
+        LEFT JOIN t_comment tc
+        ON tc.dr = 1 and tc.aid = va.aid
+        WHERE va.uid = #{uid,jdbcType=INTEGER}
+        and va.type_code = #{typeCode,jdbcType=INTEGER}
+        and va.dr = 1
     </select>
     <delete id="deleteById" parameterType="java.lang.Integer">
         UPDATE t_article SET
@@ -104,16 +171,6 @@
         where uid = #{uid,jdbcType=INTEGER}
         AND type_code = #{typeCode,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
-        insert into t_article (aid, type_code, uid,
-        create_time, ts, dr,
-        c_like, title, content
-        )
-        values (#{aid,jdbcType=INTEGER}, #{typeCode,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER},
-        #{createTime,jdbcType=TIMESTAMP}, #{ts,jdbcType=TIMESTAMP}, #{dr,jdbcType=INTEGER},
-        #{cLike,jdbcType=INTEGER}, #{title,jdbcType=LONGVARCHAR}, #{content,jdbcType=LONGVARCHAR}
-        )
-    </insert>
     <insert id="insertSelective" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
         insert into t_article
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -193,24 +250,4 @@
         </set>
         where aid = #{aid,jdbcType=INTEGER}
     </update>
-    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.huiwings.blog.entity.ArticleBLOBsEntity">
-        update t_article
-        set uid = #{uid,jdbcType=INTEGER},
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-        ts = #{ts,jdbcType=TIMESTAMP},
-        dr = #{dr,jdbcType=INTEGER},
-        c_like = #{cLike,jdbcType=INTEGER},
-        title = #{title,jdbcType=LONGVARCHAR},
-        content = #{content,jdbcType=LONGVARCHAR}
-        where aid = #{aid,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.huiwings.blog.entity.ArticleEntity">
-    update t_article
-    set uid = #{uid,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      ts = #{ts,jdbcType=TIMESTAMP},
-      dr = #{dr,jdbcType=INTEGER},
-      c_like = #{cLike,jdbcType=INTEGER}
-    where aid = #{aid,jdbcType=INTEGER}
-  </update>
 </mapper>

@@ -12,7 +12,7 @@ public class UserEntity {
     private String email;
     private int age;
     private String createTime;
-    private String timestamp;
+    private String ts;
     private int lv;
 
     public UserEntity() {
@@ -74,12 +74,12 @@ public class UserEntity {
         this.createTime = createTime;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public String getTs() {
+        return ts;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setTs(String ts) {
+        this.ts = ts;
     }
 
     public int getLv() {

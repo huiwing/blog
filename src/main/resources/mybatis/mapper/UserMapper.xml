@@ -9,7 +9,7 @@
         <result column="email" property="email" jdbcType="VARCHAR"/>
         <result column="age" property="age" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
-        <result column="ts" property="timestamp" jdbcType="TIMESTAMP"/>
+        <result column="ts" property="ts" jdbcType="TIMESTAMP"/>
         <result column="lv" property="lv" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
@@ -42,16 +42,6 @@
         UPDATE user SET dr = 0
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.huiwings.blog.entity.UserEntity">
-        insert into user (id, username, password,
-        nickname, email, age,
-        create_time, ts, dr
-        )
-        values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-        #{nickname,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER},
-        #{createTime,jdbcType=TIMESTAMP}, #{ts,jdbcType=TIMESTAMP}, #{dr,jdbcType=INTEGER}
-        )
-    </insert>
     <insert id="insertSelective" parameterType="com.huiwings.blog.entity.UserEntity">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -141,18 +131,6 @@
                 lv = #{lv,jdbcType=INTEGER},
             </if>
         </set>
-        where id = #{id,jdbcType=INTEGER}
-    </update>
-    <update id="updateByPrimaryKey" parameterType="com.huiwings.blog.entity.UserEntity">
-        update user
-        set username = #{username,jdbcType=VARCHAR},
-        password = #{password,jdbcType=VARCHAR},
-        nickname = #{nickname,jdbcType=VARCHAR},
-        email = #{email,jdbcType=VARCHAR},
-        age = #{age,jdbcType=INTEGER},
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-        ts = #{ts,jdbcType=TIMESTAMP},
-        dr = #{dr,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 </mapper>

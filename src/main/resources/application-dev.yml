@@ -1,0 +1,11 @@
+server:
+  port: 8081
+  #freemarker:
+  #  allow-request-override: false
+  #  cache: true
+  #  check-template-location: false
+  #  charset: UTF-8
+  #  content-type: text/html; charset=utf-8
+  #  expose-request-attributes: false
+  #  expose-session-attributes: false
+  #  expose-spring-macro-helpers: false
